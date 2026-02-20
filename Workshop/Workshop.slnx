@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="Workshop.Backend/Workshop.Backend.csproj" Id="9a7b35b0-f3f3-469e-a0a7-fb3a813507ed" />
+  <Project Path="Workshop.Frotend/Workshop.Frotend.csproj" Id="ace4a46c-f342-4aa5-944a-e598b3219841" />
 </Solution>
