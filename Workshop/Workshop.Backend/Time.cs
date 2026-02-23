@@ -137,9 +137,10 @@ public class Time
     // Formato: HH:MM:SS.mmm AM/PM
     public override string ToString()
     {
-        int displayHour = _hour % 12;
-        if (displayHour == 0)
-            displayHour = 12;
+        int displayHour = _hour;
+
+        if (_hour > 12)
+            displayHour = _hour - 12;
 
         string tt = _hour < 12 ? "AM" : "PM";
 
