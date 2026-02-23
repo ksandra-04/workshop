@@ -2,53 +2,51 @@
 
 public class Time
 {
+    // Fields
     private int _hour;
     private int _minute;
     private int _second;
     private int _millisecond;
-    //utilizo atributos privados
 
-    //Constructor sin parámetros
-    public Time()
-    {
-        _hour = 0;
-        _minute = 0;
-        _second = 0;
-        _millisecond = 0; 
-    }
+    // Properties
+    public int Hour => _hour;
+    public int Minute => _minute;
+    public int Second => _second;
+    public int Millisecond => _millisecond;
 
-    //Constructor que recibe solo la hora
-        public Time(int hour) : this(hour, 0, 0, 0)
+    // 1) Sin parámetros
+    public Time() : this(0, 0, 0, 0)
     {
     }
 
-    //Constructor que recibe hora y minuto
+    // 2) Solo hora
+    public Time(int hour) : this(hour, 0, 0, 0)
+    {
+    }
+
+    // 3) Hora y minuto
     public Time(int hour, int minute) : this(hour, minute, 0, 0)
     {
     }
 
-    //Constructor que recibe hora, minuto y segundo
+    // 4) Hora, minuto y segundo
     public Time(int hour, int minute, int second) : this(hour, minute, second, 0)
     {
     }
 
-    // Constructor completo
-   
+    // 5) Constructor completo
     public Time(int hour, int minute, int second, int millisecond)
     {
-        // Se realizan las Validación 
-        if (hour < 0 || hour > 23)
+        if (!ValidHour(hour))
             throw new Exception($"The hour: {hour}, is not valid.");
 
-        
-        if (minute < 0 || minute > 59)
+        if (!ValidMinute(minute))
             throw new Exception($"The minute: {minute}, is not valid.");
 
-        if (second < 0 || second > 59)
+        if (!ValidSecond(second))
             throw new Exception($"The second: {second}, is not valid.");
 
-        
-        if (millisecond < 0 || millisecond > 999)
+        if (!ValidMillisecond(millisecond))
             throw new Exception($"The millisecond: {millisecond}, is not valid.");
 
         _hour = hour;
@@ -57,8 +55,28 @@ public class Time
         _millisecond = millisecond;
     }
 
-    // Método que convierte la hora completa a milisegundos
+    // Métodos de validación 
+    private bool ValidHour(int hour)
+    {
+        return hour >= 0 && hour <= 23;
+    }
 
+    private bool ValidMinute(int minute)
+    {
+        return minute >= 0 && minute <= 59;
+    }
+
+    private bool ValidSecond(int second)
+    {
+        return second >= 0 && second <= 59;
+    }
+
+    private bool ValidMillisecond(int millisecond)
+    {
+        return millisecond >= 0 && millisecond <= 999;
+    }
+
+    // ToMilliseconds
     public long ToMilliseconds()
     {
         return _hour * 3600000L
@@ -67,18 +85,19 @@ public class Time
              + _millisecond;
     }
 
-
+    // ToSeconds
     public long ToSeconds()
     {
         return ToMilliseconds() / 1000;
     }
 
+    // ToMinutes
     public long ToMinutes()
     {
         return ToSeconds() / 60;
     }
 
-    
+    // Add
     public Time Add(Time other)
     {
         int ms = _millisecond + other._millisecond;
@@ -86,7 +105,6 @@ public class Time
         int m = _minute + other._minute;
         int h = _hour + other._hour;
 
-      
         if (ms >= 1000)
         {
             s += ms / 1000;
@@ -99,21 +117,18 @@ public class Time
             s %= 60;
         }
 
-        
         if (m >= 60)
         {
             h += m / 60;
             m %= 60;
         }
 
-
         h %= 24;
 
         return new Time(h, m, s, ms);
     }
 
-    // Método que verifica si al sumar dos horas
-    // se pasa al día siguiente
+    // IsOtherDay
     public bool IsOtherDay(Time other)
     {
         int ms = _millisecond + other._millisecond;
@@ -130,24 +145,18 @@ public class Time
         if (m >= 60)
             h += m / 60;
 
-        
         return h >= 24;
     }
 
-    // Formato: HH:MM:SS.mmm AM/PM
+    // Formato NO militar 
     public override string ToString()
     {
-        int displayHour = _hour;
-
-        if (_hour > 12)
-            displayHour = _hour - 12;
+        int displayHour = _hour % 12;
+        if (displayHour == 0)
+            displayHour = 12;
 
         string tt = _hour < 12 ? "AM" : "PM";
 
         return $"{displayHour:00}:{_minute:00}:{_second:00}.{_millisecond:000} {tt}";
     }
 }
-
-   
-
-
