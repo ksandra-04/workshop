@@ -60,11 +60,11 @@ public class Time
     {
         return hour >= 0 && hour <= 23;
     }
-
-    private bool ValidMinute(int minute)
-    {
-        return minute >= 0 && minute <= 59;
+    private bool ValidMinute(int minute) 
+    { 
+        return minute >= 0 && minute <= 59; 
     }
+
 
     private bool ValidSecond(int second)
     {
@@ -159,4 +159,5 @@ public class Time
 
         return $"{displayHour:00}:{_minute:00}:{_second:00}.{_millisecond:000} {tt}";
     }
+
 }
